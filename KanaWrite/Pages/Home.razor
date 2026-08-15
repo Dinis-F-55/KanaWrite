@@ -259,6 +259,20 @@
 </div>
 
 @code {
+    #region Subtitle
+    
+    private string PageName => Nav.Uri.Split('/').Last();
+    
+    [CascadingParameter]
+    public MainLayout? Layout { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Layout?.SetSubtitle(PageName.ToLower());
+    }
+    
+    #endregion
+    
     private double _currentPracticeButtonRotation = 0;
     private double _currentMarathonButtonRotation = 0;
     
@@ -294,3 +308,4 @@
         _currentMarathonButtonRotation = 0;
     }
 }
+
