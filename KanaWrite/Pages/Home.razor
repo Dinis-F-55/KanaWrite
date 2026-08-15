@@ -1,7 +1,296 @@
 ﻿@page "/"
+@inject NavigationManager Nav
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="page">
+    <div class="kana-table">
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>A</th>
+                    <th>I</th>
+                    <th>U</th>
+                    <th>E</th>
+                    <th>O</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th></th>
+                    <td>あ</td>
+                    <td>い</td>
+                    <td>う</td>
+                    <td>え</td>
+                    <td>お</td>
+                </tr>
+                <tr>
+                    <th>K</th>
+                    <td>か</td>
+                    <td>き</td>
+                    <td>く</td>
+                    <td>け</td>
+                    <td>こ</td>
+                </tr>
+                <tr>
+                    <th>S</th>
+                    <td>さ</td>
+                    <td>し</td>
+                    <td>す</td>
+                    <td>せ</td>
+                    <td>そ</td>
+                </tr>
+                <tr>
+                    <th>T</th>
+                    <td>た</td>
+                    <td>ち</td>
+                    <td>つ</td>
+                    <td>て</td>
+                    <td>と</td>
+                </tr>
+                <tr>
+                    <th>N</th>
+                    <td>な</td>
+                    <td>に</td>
+                    <td>ぬ</td>
+                    <td>ね</td>
+                    <td>の</td>
+                </tr>
+                <tr>
+                    <th>H</th>
+                    <td>は</td>
+                    <td>ひ</td>
+                    <td>ふ</td>
+                    <td>へ</td>
+                    <td>ほ</td>
+                </tr>
+                <tr>
+                    <th>M</th>
+                    <td>ま</td>
+                    <td>み</td>
+                    <td>む</td>
+                    <td>め</td>
+                    <td>も</td>
+                </tr>
+                <tr>
+                    <th>Y</th>
+                    <td>や</td>
+                    <td></td>
+                    <td>ゆ</td>
+                    <td></td>
+                    <td>よ</td>
+                </tr>
+                <tr>
+                    <th>R</th>
+                    <td>ら</td>
+                    <td>り</td>
+                    <td>る</td>
+                    <td>れ</td>
+                    <td>ろ</td>
+                </tr>
+                <tr>
+                    <th>W</th>
+                    <td>わ</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>を</td>
+                </tr>
+                <tr>
+                    <th>n</th>
+                    <td></td>
+                    <td></td>
+                    <td>ん</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="description-container">
+        <h3 class="section-title">Description</h3>
+        <hr class="section-divider"/>
 
-Welcome to your new app.
+        <p class="description-text">
+            A tool designed for active recall training of Hiragana and Katakana characters.
+        </p>
+
+        <h4 class="modes-header">Available Modes:</h4>
+
+        <ul class="modes-list">
+            <li>
+                <strong class="mode-practice">Practice Mode:</strong>
+                <p class="mode-desc">
+                    Target specific rows. Review cards via audio cues, text cards, or both. Advance at your own pace while writing your answers down manually on your notepad.
+                </p>
+            </li>
+            <li>
+                <strong class="mode-marathon">Marathon Mode:</strong>
+                <p class="mode-desc">
+                    Test structural retention. Automatically cycles sequentially through the entire traditional kana matrix with an adjustable time delay between symbols.
+                </p>
+            </li>
+        </ul>
+        
+        <div class="mode-buttons"> 
+            <button class="practice-button"
+                    @onclick="NavigateToPractice"
+                    @onmousemove="HandleMouseMovePracticeButton"
+                    @onmouseleave="HandleMouseLeavePracticeButton"
+                    style="transform: rotate(@(_currentPracticeButtonRotation)deg);">
+                Practice
+            </button>
+            <button class="marathon-button"
+                    @onclick="NavigateToMarathon"
+                    @onmousemove="HandleMouseMoveMarathonButton"
+                    @onmouseleave="HandleMouseLeaveMarathonButton"
+                    style="transform: rotate(@(_currentMarathonButtonRotation)deg);">
+                Marathon
+            </button>
+        </div>    
+    </div>
+    
+    <div class="kana-table">
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>A</th>
+                    <th>I</th>
+                    <th>U</th>
+                    <th>E</th>
+                    <th>O</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th></th>
+                    <td>ア</td>
+                    <td>イ</td>
+                    <td>ウ</td>
+                    <td>エ</td>
+                    <td>オ</td>
+                </tr>
+                <tr>
+                    <th>K</th>
+                    <td>カ</td>
+                    <td>キ</td>
+                    <td>ク</td>
+                    <td>ケ</td>
+                    <td>コ</td>
+                </tr>
+                <tr>
+                    <th>S</th>
+                    <td>サ</td>
+                    <td>シ</td>
+                    <td>ス</td>
+                    <td>セ</td>
+                    <td>ソ</td>
+                </tr>
+                <tr>
+                    <th>T</th>
+                    <td>タ</td>
+                    <td>チ</td>
+                    <td>ツ</td>
+                    <td>テ</td>
+                    <td>ト</td>
+                </tr>
+                <tr>
+                    <th>N</th>
+                    <td>ナ</td>
+                    <td>ニ</td>
+                    <td>ヌ</td>
+                    <td>ネ</td>
+                    <td>ノ</td>
+                </tr>
+                <tr>
+                    <th>H</th>
+                    <td>ハ</td>
+                    <td>ヒ</td>
+                    <td>フ</td>
+                    <td>ヘ</td>
+                    <td>ホ</td>
+                </tr>
+                <tr>
+                    <th>M</th>
+                    <td>マ</td>
+                    <td>ミ</td>
+                    <td>ム</td>
+                    <td>メ</td>
+                    <td>モ</td>
+                </tr>
+                <tr>
+                    <th>Y</th>
+                    <td>ヤ</td>
+                    <td></td>
+                    <td>ユ</td>
+                    <td></td>
+                    <td>ヨ</td>
+                </tr>
+                <tr>
+                    <th>R</th>
+                    <td>ラ</td>
+                    <td>リ</td>
+                    <td>ル</td>
+                    <td>レ</td>
+                    <td>ロ</td>
+                </tr>
+                <tr>
+                    <th>W</th>
+                    <td>ワ</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>ヲ</td>
+                </tr>
+                <tr>
+                    <th>n</th>
+                    <td></td>
+                    <td></td>
+                    <td>ン</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+    private double _currentPracticeButtonRotation = 0;
+    private double _currentMarathonButtonRotation = 0;
+    
+    private void NavigateToPractice()
+    {
+        Nav.NavigateTo("/practice");
+    }
+
+    private void NavigateToMarathon()
+    {
+        Nav.NavigateTo("/marathon");
+    }
+
+    private void HandleMouseMovePracticeButton(MouseEventArgs e)
+    {
+        var distanceFromCenter = e.OffsetX - 80;
+        _currentPracticeButtonRotation = distanceFromCenter / -20;
+    }
+
+    private void HandleMouseLeavePracticeButton()
+    {
+        _currentPracticeButtonRotation = 0;
+    }
+    
+    private void HandleMouseMoveMarathonButton(MouseEventArgs e)
+    {
+        var distanceFromCenter = e.OffsetX - 80;
+        _currentMarathonButtonRotation = distanceFromCenter / -20;
+    }
+
+    private void HandleMouseLeaveMarathonButton()
+    {
+        _currentMarathonButtonRotation = 0;
+    }
+}

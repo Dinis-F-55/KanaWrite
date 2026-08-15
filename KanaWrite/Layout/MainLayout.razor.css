@@ -9,7 +9,7 @@ main {
 }
 
 .top-row {
-    border-bottom: 2px solid green;
+    /*border-bottom: 2px solid green;*/
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -35,17 +35,47 @@ main {
     color: white;
     letter-spacing: 0.5px;
     margin-left: 1rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.tilt-kana {
+    display: inline-block;
+    transform: rotate(0deg) translateX(2px);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+}
+
+.app-title:hover .tilt-kana {
+    transform: rotate(-10deg) translateX(1px);
 }
 
 .page-subtitle {
     font-family: 'GlacialIndifference', sans-serif;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(150, 150, 150, 1);
     font-size: 1.5rem;
 }
 
 .title-subtitle-separator {
     font-family: 'GlacialIndifference', sans-serif;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(150, 150, 150, 1);
     font-size: 1.5rem;
     transform: translateY(-1px);
+}
+
+.swap-button {
+    stroke: rgba(150, 150, 150, 1);
+    transform: translateY(1px);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: stroke 0.2s ease, transform 0.2s ease;
+    padding: 0;
+}
+
+.swap-button:hover {
+    stroke: rgba(200, 200, 200, 1);
+    transform: translateX(2px) translateY(1px);
 }
