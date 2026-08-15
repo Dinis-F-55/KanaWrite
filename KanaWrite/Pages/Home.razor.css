@@ -1,0 +1,123 @@
+.page {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    padding: 0 1rem;
+}
+
+.description-container {
+    color: #E0E0E0;
+    font-family: sans-serif;
+    max-width: 600px;
+    margin: 0 50px 0 50px;
+}
+
+.kana-table {
+    font-size: 1.5rem;
+}
+
+.kana-table th {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.kana-table td {
+    border: 2px solid #505050;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    text-align: center;
+    color: #B0BEC5;
+}
+
+.section-title {
+    color: #F2E863;
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.section-divider {
+    border: none;
+    height: 2px;
+    background-color: #505050;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.description-text {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.modes-header {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #FFFFFF;
+    margin-bottom: 1rem;
+}
+
+.modes-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.modes-list li {
+    margin-bottom: 1.2rem;
+    line-height: 1.5;
+}
+
+.mode-practice {
+    color: #DD72E5;
+}
+
+.mode-marathon {
+    color: #72D4E5;
+}
+
+.mode-desc {
+    margin-top: 0.25rem;
+    color: #B0BEC5;
+}
+
+.mode-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.mode-buttons button {
+    border: none;
+    width: 160px;
+    height: 35px;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    transition: 0.25s ease-out;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.mode-buttons button:hover {
+    transform: translateY(-2px);
+}
+
+.practice-button { 
+    background-color: #DD72E5;
+}
+
+.practice-button:hover {
+    background-color: #e594ea;
+    box-shadow: 0 0 10px 2px rgb(80 32 83 / 0.75);
+}
+
+.marathon-button {
+    background-color: #72D4E5;
+}
+
+.marathon-button:hover {
+    background-color: #8edbe8;
+    box-shadow: 0 0 10px 2px rgb(22 72 81 / 0.75);
+}
