@@ -1,16 +1,29 @@
 ﻿@inherits LayoutComponentBase
 <div class="page">
-    <div class="sidebar">
-        <NavMenu/>
-    </div>
-
     <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+        <div class="top-row">
+            <span class="app-title">KanaWrite</span>
+            @if (!string.IsNullOrEmpty(PageTitle))
+            {
+                <span class="title-subtitle-separator">|</span>
+                <span class="page-subtitle">@PageTitle</span>
+            }
         </div>
 
         <article class="content px-4">
-            @Body
+            <CascadingValue Value="this">
+                @Body
+            </CascadingValue>
         </article>
     </main>
 </div>
+
+@code {
+    public string? PageTitle { get; set; }
+    
+    public void SetTitle(string? title)
+    {
+        PageTitle = title;
+        StateHasChanged();
+    }
+}

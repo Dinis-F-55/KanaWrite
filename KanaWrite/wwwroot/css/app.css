@@ -1,5 +1,28 @@
+@font-face {
+    font-family: 'FredokaOne';
+    src: url('../fonts/FredokaOne-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GlacialIndifference';
+    src: url('../fonts/GlacialIndifference-Regular.otf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GlacialIndifference';
+    src: url('../fonts/GlacialIndifference-Bold.otf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #212227;
+    color: #FFFFFF;
 }
 
 h1:focus {
