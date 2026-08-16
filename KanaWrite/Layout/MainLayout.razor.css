@@ -112,10 +112,9 @@ main {
 }
 
 .title-subtitle-separator {
-    font-family: 'GlacialIndifference', sans-serif;
-    color: rgba(150, 150, 150, 1);
     font-size: 1.5rem;
-    transform: translateY(-1px);
+    font-weight: bold;
+    transform: translateY(-2px);
 }
 
 .swap-button {

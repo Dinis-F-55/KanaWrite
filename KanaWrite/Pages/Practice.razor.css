@@ -1,0 +1,97 @@
+.kana-table {
+    font-size: 1rem;
+    width: fit-content;
+    position: relative;
+}
+
+.kana-table::before {
+    content: "Hover to reveal 🖱️";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    color: #B0BEC5;
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+    font-weight: bold;
+    z-index: 10;
+}
+
+.kana-table:hover::before {
+    opacity: 0;
+}
+
+.kana-table table {
+    table-layout: fixed;
+    width: 600px;
+    filter: blur(5px);
+    transition: filter 0.5s ease-in-out;
+}
+
+.kana-table:hover table {
+    filter: blur(0);
+}
+
+.kana-table th {
+    color: #FFFFFF;
+    justify-content: center;
+    text-align: center;
+}
+
+.kana-table td {
+    /*border: 2px solid #505050;*/
+    font-family: 'Noto Sans JP', sans-serif;
+    text-align: center;
+    justify-content: center;
+    color: #B0BEC5;
+}
+
+.kana-table tbody tr:first-child td {
+    border-top: 2px solid #B0BEC5;
+}
+.kana-table tbody tr td:first-of-type {
+    border-left: 2px solid #B0BEC5;
+}
+.kana-table tbody tr td:last-of-type {
+    border-right: 2px solid #B0BEC5;
+}
+.kana-table tbody tr:last-child td {
+    border-bottom: 2px solid #B0BEC5;
+}
+
+.first-dakuten-row td, .first-handakuten-row td {
+    border-top: solid 2px #B0BEC5;
+}
+
+.kana-table td:nth-child(6) {
+    border-right: 2px solid #B0BEC5;
+}
+
+.kana-table td:nth-child(11) {
+    border-right: 2px solid #B0BEC5;
+}
+
+.cell-with-checkbox input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+
+    width: 20px;
+    height: 20px;
+
+    background-color: rgba(255, 255, 255, 0);
+    border: #B0BEC5 solid 2px;
+    border-radius: 3px;
+    
+    margin: 0;
+    cursor: pointer;
+    display: grid;
+    transform: translateX(6px);
+    place-content: center;
+}
+
+.cell-with-checkbox input[type="checkbox"]:checked {
+    background-color: white;
+    border: white solid 2px;
+}

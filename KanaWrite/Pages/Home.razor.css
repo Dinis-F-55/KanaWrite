@@ -91,7 +91,7 @@
 }
 
 .mode-practice {
-    color: #e39ae8;
+    color: #E39AE8;
 }
 
 .mode-marathon {
@@ -126,12 +126,12 @@
 }
 
 .practice-button { 
-    background-color: #e39ae8;
+    background-color: #E39AE8;
 }
 
 .practice-button:hover {
-    background-color: #e594ea;
-    box-shadow: 0 0 10px 2px rgb(80 32 83 / 0.75);
+    background-color: #E594EA;
+    box-shadow: 0 0 10px 2px rgba(80, 32, 83, 0.75);
 }
 
 .marathon-button {
@@ -139,6 +139,6 @@
 }
 
 .marathon-button:hover {
-    background-color: #8edbe8;
-    box-shadow: 0 0 10px 2px rgb(22 72 81 / 0.75);
+    background-color: #8EDBE8;
+    box-shadow: 0 0 10px 2px rgba(22, 72, 81, 0.75);
 }
