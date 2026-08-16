@@ -3,6 +3,7 @@
     justify-content: center;
     position: relative;
     padding: 0 1rem;
+    overflow: hidden;
 }
 
 .description-container {
@@ -25,12 +26,30 @@
 }
 
 .kana-table td {
-    border: 2px solid #505050;
+    /*border: 2px solid #505050;*/
+    font-family: 'Noto Sans JP', sans-serif;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     text-align: center;
     justify-content: center;
     color: #B0BEC5;
+}
+
+.kana-table tbody tr:first-child td {
+    border-top: 2px solid #B0BEC5;
+}
+.kana-table tbody tr td:first-of-type {
+    border-left: 2px solid #B0BEC5;
+}
+.kana-table tbody tr td:last-of-type {
+    border-right: 2px solid #B0BEC5;
+}
+.kana-table tbody tr:last-child td {
+    border-bottom: 2px solid #B0BEC5;
+}
+
+.first-dakuten-row td, .first-handakuten-row td {
+    border-top: solid 2px #B0BEC5;
 }
 
 .section-title {
@@ -72,7 +91,7 @@
 }
 
 .mode-practice {
-    color: #DD72E5;
+    color: #e39ae8;
 }
 
 .mode-marathon {
@@ -107,7 +126,7 @@
 }
 
 .practice-button { 
-    background-color: #DD72E5;
+    background-color: #e39ae8;
 }
 
 .practice-button:hover {
