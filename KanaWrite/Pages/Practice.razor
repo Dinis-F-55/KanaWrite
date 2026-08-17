@@ -549,7 +549,19 @@
     </div>
     
     <div class="main-container">
-        <div class="current-character-display">@(_currentKana != null ? _currentKana.Romaji : "")</div>
+        <div class="current-character-display">
+            <button class="previous-button nav-button" @onclick="Undo" style=@(_history.Count == 0 ? "color: rgba(255, 255, 255, 20%)" : "color: white")>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-corner-up-left-icon lucide-corner-up-left button-arrow"><path d="M20 20v-7a4 4 0 0 0-4-4H4"/><path d="M9 14 4 9l5-5"/></svg>
+                <span class="button-text">previous</span>
+            </button>
+            
+            <span class="current-character">@(_currentKana != null ? _currentKana.Romaji : "")</span>
+            
+            <button class="next-button nav-button" @onclick="NextCharacter">
+                <span class="button-text">next</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-corner-up-right-icon lucide-corner-up-right button-arrow"><path d="m15 14 5-5-5-5"/><path d="M4 20v-7a4 4 0 0 1 4-4h12"/></svg>
+            </button>
+        </div>
         <div class="history">@((MarkupString)_historyString)</div>
 
     </div>
@@ -558,12 +570,14 @@
 <script>
     window.registerGlobalKeyListener = (dotnetHelper) => {
         window.globalKeyHandler = (e) => {
+            if (e.repeat) return;
+            
             if (e.code === 'Space' || e.key === ' ') {
                 e.preventDefault();
                 dotnetHelper.invokeMethodAsync('NextCharacter');
             }
             
-            if ((e.ctrlKey || e.metaKey) && (e.key === 'z' || e.key === 'Z')) {
+            if (e.code === 'Backspace') {
                 dotnetHelper.invokeMethodAsync('Undo');
             }
         };
@@ -871,7 +885,7 @@
             sb.Append(kana.Romaji)
                 .Append("<span style=\"color: #B0BEC5;\"> | </span>")
                 .Append(kana.Hira)
-                .Append("<span style=\"color: #B0BEC5;\"> / </span>")
+                .Append("<span style=\"color: #B0BEC5;\"> | </span>")
                 .Append(kana.Kata)
                 .Append("<br />");
         }

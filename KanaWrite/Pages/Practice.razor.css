@@ -202,8 +202,8 @@
 }
 
 .current-character-display {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 20% auto 20%;
     align-items: center;
     width: 100%;
     height: 10%;
@@ -215,6 +215,56 @@
     font-size: 1.5rem;
     border: 3px solid white;
     /*border-radius: 15px;*/
+}
+
+.current-character {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-button {
+    background: none;
+    color: white;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    border: none;
+    gap: 10px;
+    padding: 0 20px 0 20px;
+}
+
+.nav-button:focus-visible {
+    outline: none;
+}
+
+.button-arrow {
+    transition: transform 0.2s ease-out;
+}
+
+.previous-button {
+    justify-content: flex-start;
+}
+
+.previous-button:hover {
+    background: linear-gradient(to right, rgba(255, 255, 255, 10%), rgba(255, 255, 255, 0));
+}
+
+.previous-button:hover .button-arrow {
+    transform: translateX(-3px);
+}
+
+.next-button {
+    justify-content: flex-end;
+}
+
+.next-button:hover {
+    background: linear-gradient(to left, rgba(255, 255, 255, 10%), rgba(255, 255, 255, 0));
+}
+
+.next-button:hover .button-arrow {
+    transform: translateX(3px);
 }
 
 .history {
