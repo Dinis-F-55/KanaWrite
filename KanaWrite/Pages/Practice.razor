@@ -2,7 +2,6 @@
 @inject IJSRuntime JS
 @inject ILocalStorageService LocalStorage
 @implements IAsyncDisposable
-@using System.Collections.Generic;
 @using System.Text
 
 @page "/Practice"
@@ -549,35 +548,45 @@
     </div>
     
     <div class="main-container">
+        <div class="no-rows-warning" style="opacity: @(_checkedRows.All(x => !x) ? "1" : "0");">
+            Select at least one row
+            <div class="warning-arrow">
+                <img src="images/warning-arrow.png" alt="Character"/>
+            </div>
+        </div>
         <div class="current-character-display">
-            <button class="previous-button nav-button" @onclick="Undo" style=@(_history.Count == 0 ? "color: rgba(255, 255, 255, 20%)" : "color: white")>
+            <button class="previous-button nav-button" @onclick="Undo" style=@(_history.Count == 0 ? "color: rgba(255, 255, 255, 20%); cursor: not-allowed" : "color: white")>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-corner-up-left-icon lucide-corner-up-left button-arrow"><path d="M20 20v-7a4 4 0 0 0-4-4H4"/><path d="M9 14 4 9l5-5"/></svg>
                 <span class="button-text">previous</span>
             </button>
-            
+
             <span class="current-character">@(_currentKana != null ? _currentKana.Romaji : "")</span>
-            
+
             <button class="next-button nav-button" @onclick="NextCharacter">
                 <span class="button-text">next</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-corner-up-right-icon lucide-corner-up-right button-arrow"><path d="m15 14 5-5-5-5"/><path d="M4 20v-7a4 4 0 0 1 4-4h12"/></svg>
             </button>
         </div>
         <div class="history">@((MarkupString)_historyString)</div>
-
     </div>
+    
+    <button class="reset-button" @onclick="Reset">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-ccw-icon lucide-rotate-ccw"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+    </button>
 </div>
 
 <script>
     window.registerGlobalKeyListener = (dotnetHelper) => {
         window.globalKeyHandler = (e) => {
             if (e.repeat) return;
+            console.log(`Key pressed: code = "${e.code}", key = "${e.key}"`);
             
-            if (e.code === 'Space' || e.key === ' ') {
+            if (e.code === 'Space' || e.key === ' ' || e.code === 'ArrowRight') {
                 e.preventDefault();
                 dotnetHelper.invokeMethodAsync('NextCharacter');
             }
             
-            if (e.code === 'Backspace') {
+            if (e.code === 'Backspace' || e.code === 'ArrowLeft') {
                 dotnetHelper.invokeMethodAsync('Undo');
             }
         };
@@ -605,11 +614,11 @@
     #endregion
     
     private DotNetObjectReference<Practice>? _objRef;
+    private record Kana(string Romaji, string Hira, string Kata);
     
     private bool[]? _checkedRows = Enumerable.Repeat(true, 27).ToArray();
-    private record Kana(string Romaji, string Hira, string Kata);
     private Kana? _currentKana = null;
-    private readonly LinkedList<Kana> _history = [];
+    private LinkedList<Kana> _history = [];
     private string _historyString = "";
     
     private readonly Kana[][] kana = new Kana[][]
@@ -802,6 +811,14 @@
         ]
     };
 
+    private void Reset()
+    {
+        _currentKana = null;
+        _history = [];
+        _historyString = "";
+        StateHasChanged();
+    }
+    
     private void OnCheckboxChanged(int index, ChangeEventArgs e)
     {
         if (e.Value is not bool isChecked) return;
@@ -834,6 +851,8 @@
     [JSInvokable]
     public void NextCharacter()
     {
+        if (_checkedRows.All(x => !x)) return;
+        
         if (_currentKana != null)
         {
             _history.AddFirst(_currentKana);
@@ -845,15 +864,8 @@
             .SelectMany(row => row)
             .ToList();
         
-        if (pickedKanas.Any())
-        {
-            var random = new Random();
-            _currentKana = pickedKanas[random.Next(pickedKanas.Count)];
-        }
-        else
-        {
-            // Handle the case where no kana are selected
-        }
+        var random = new Random();
+        _currentKana = pickedKanas[random.Next(pickedKanas.Count)];
 
         if (_history.Count >= 200)
         {
@@ -861,7 +873,6 @@
         }
         
         StateHasChanged();
-        SaveData();
     }
 
     [JSInvokable]
