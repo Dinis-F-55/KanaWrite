@@ -1,4 +1,9 @@
 @inject NavigationManager Nav
+@inject IJSRuntime JS
+@inject ILocalStorageService LocalStorage
+@implements IAsyncDisposable
+@using System.Collections.Generic;
+@using System.Text
 
 @page "/Practice"
 
@@ -14,7 +19,6 @@
                 <th colspan="5">Katakana</th>
                 <th colspan="5">Romaji</th>
                 <th></th>
-                
             </tr>
             </thead>
             <tbody>
@@ -36,7 +40,7 @@
                 <td>e</td>
                 <td>o</td>
                 <th class="cell-with-checkbox">
-                    <input type="checkbox" id="a-col" value="0">
+                    <input type="checkbox" id="a-col" checked="@_checkedRows[0]" @onchange="(e) => OnCheckboxChanged(0, e)">
                 </th>
             </tr>
             <tr>
@@ -57,7 +61,7 @@
                 <td>ke</td>
                 <td>ko</td>
                 <th class="cell-with-checkbox">
-                    <input type="checkbox" id="k-col" value="1">
+                    <input type="checkbox" id="k-col" checked="@_checkedRows[1]" @onchange="(e) => OnCheckboxChanged(1, e)">
                 </th>
             </tr>
             <tr>
@@ -78,7 +82,7 @@
                 <td>se</td>
                 <td>so</td>
                 <th class="cell-with-checkbox">
-                    <input type="checkbox" id="s-col" value="2">
+                    <input type="checkbox" id="s-col" checked="@_checkedRows[2]" @onchange="(e) => OnCheckboxChanged(2, e)">
                 </th>
             </tr>
             <tr>
@@ -99,7 +103,7 @@
                 <td>te</td>
                 <td>to</td>
                 <th class="cell-with-checkbox">
-                    <input type="checkbox" id="t-col" value="3">
+                    <input type="checkbox" id="t-col" checked="@_checkedRows[3]" @onchange="(e) => OnCheckboxChanged(3, e)">
                 </th>
             </tr>
             <tr>
@@ -120,7 +124,7 @@
                 <td>ne</td>
                 <td>no</td>
                 <th class="cell-with-checkbox">
-                    <input type="checkbox" id="n-col" value="4">
+                    <input type="checkbox" id="n-col" checked="@_checkedRows[4]" @onchange="(e) => OnCheckboxChanged(4, e)">
                 </th>
             </tr>
             <tr>
@@ -141,7 +145,7 @@
                 <td>he</td>
                 <td>ho</td>
                 <th class="cell-with-checkbox">
-                    <input type="checkbox" id="h-col" value="5">
+                    <input type="checkbox" id="h-col" checked="@_checkedRows[5]" @onchange="(e) => OnCheckboxChanged(5, e)">
                 </th>
             </tr>
             <tr>
@@ -162,7 +166,7 @@
                 <td>me</td>
                 <td>mo</td>
                 <th class="cell-with-checkbox">
-                    <input type="checkbox" id="m-col" value="6">
+                    <input type="checkbox" id="m-col" checked="@_checkedRows[6]" @onchange="(e) => OnCheckboxChanged(6, e)">
                 </th>
             </tr>
             <tr>
@@ -183,7 +187,7 @@
                 <td></td>
                 <td>yo</td>
                 <th class="cell-with-checkbox">
-                    <input type="checkbox" id="y-col" value="7">
+                    <input type="checkbox" id="y-col" checked="@_checkedRows[7]" @onchange="(e) => OnCheckboxChanged(7, e)">
                 </th>
             </tr>
             <tr>
@@ -204,7 +208,7 @@
                 <td>re</td>
                 <td>ro</td>
                 <th class="cell-with-checkbox">
-                    <input type="checkbox" id="r-col" value="8">
+                    <input type="checkbox" id="r-col" checked="@_checkedRows[8]" @onchange="(e) => OnCheckboxChanged(8, e)">
                 </th>
             </tr>
             <tr>
@@ -225,7 +229,7 @@
                 <td></td>
                 <td>wo</td>
                 <th class="cell-with-checkbox">
-                    <input type="checkbox" id="w-col" value="9">
+                    <input type="checkbox" id="w-col" checked="@_checkedRows[9]" @onchange="(e) => OnCheckboxChanged(9, e)">
                 </th>
             </tr>
             <tr>
@@ -246,7 +250,7 @@
                 <td></td>
                 <td></td>
                 <th class="cell-with-checkbox">
-                    <input type="checkbox" id="n-char-col" value="10">
+                    <input type="checkbox" id="n-char-col" checked="@_checkedRows[10]" @onchange="(e) => OnCheckboxChanged(10, e)">
                 </th>
             </tr>
             <tr class="first-dakuten-row">
@@ -267,7 +271,7 @@
                 <td>ge</td>
                 <td>go</td>
                 <th class="cell-with-checkbox">
-                    <input type="checkbox" id="g-col" value="11">
+                    <input type="checkbox" id="g-col" checked="@_checkedRows[11]" @onchange="(e) => OnCheckboxChanged(11, e)">
                 </th>
             </tr>
             <tr>
@@ -288,7 +292,7 @@
                 <td>ze</td>
                 <td>zo</td>
                 <th class="cell-with-checkbox">
-                    <input type="checkbox" id="z-col" value="12">
+                    <input type="checkbox" id="z-col" checked="@_checkedRows[12]" @onchange="(e) => OnCheckboxChanged(12, e)">
                 </th>
             </tr>
             <tr>
@@ -309,7 +313,7 @@
                 <td>de</td>
                 <td>do</td>
                 <th class="cell-with-checkbox">
-                    <input type="checkbox" id="d-col" value="13">
+                    <input type="checkbox" id="d-col" checked="@_checkedRows[13]" @onchange="(e) => OnCheckboxChanged(13, e)">
                 </th>
             </tr>
             <tr>
@@ -330,7 +334,7 @@
                 <td>be</td>
                 <td>bo</td>
                 <th class="cell-with-checkbox">
-                    <input type="checkbox" id="b-col" value="14">
+                    <input type="checkbox" id="b-col" checked="@_checkedRows[14]" @onchange="(e) => OnCheckboxChanged(14, e)">
                 </th>
             </tr>
             <tr class="first-handakuten-row">
@@ -351,14 +355,225 @@
                 <td>pe</td>
                 <td>po</td>
                 <th class="cell-with-checkbox">
-                    <input type="checkbox" id="p-col" value="15">
+                    <input type="checkbox" id="p-col" checked="@_checkedRows[15]" @onchange="(e) => OnCheckboxChanged(15, e)">
                 </th>
             </tr>
             </tbody>
         </table>
     </div>
+    
+    <div class="combinations-table">
+        <table>
+            <thead>
+            <tr>
+                <th></th>
+                <th colspan="3">Hiragana</th>
+                <th colspan="3">Katakana</th>
+                <th colspan="3">Romaji</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th></th>
+                <td>きゃ</td>
+                <td>きゅ</td>
+                <td>きょ</td>
+                <td>キャ</td>
+                <td>キュ</td>
+                <td>キョ</td>
+                <td>kya</td>
+                <td>kyu</td>
+                <td>kyo</td>
+                <th class="cell-with-checkbox">
+                    <input type="checkbox" id="ky-comb-col" checked="@_checkedRows[16]" @onchange="(e) => OnCheckboxChanged(16, e)">
+                </th>
+            </tr>
+            <tr>
+                <th></th>
+                <td>しゃ</td>
+                <td>しゅ</td>
+                <td>しょ</td>
+                <td>シャ</td>
+                <td>シュ</td>
+                <td>ショ</td>
+                <td>sha</td>
+                <td>shu</td>
+                <td>sho</td>
+                <th class="cell-with-checkbox">
+                    <input type="checkbox" id="sh-comb-col" checked="@_checkedRows[17]" @onchange="(e) => OnCheckboxChanged(17, e)">
+                </th>
+            </tr>
+            <tr>
+                <th></th>
+                <td>ちゃ</td>
+                <td>ちゅ</td>
+                <td>ちょ</td>
+                <td>チャ</td>
+                <td>チュ</td>
+                <td>チョ</td>
+                <td>cha</td>
+                <td>chu</td>
+                <td>cho</td>
+                <th class="cell-with-checkbox">
+                    <input type="checkbox" id="ch-comb-col" checked="@_checkedRows[18]" @onchange="(e) => OnCheckboxChanged(18, e)">
+                </th>
+            </tr>
+            <tr>
+                <th></th>
+                <td>にゃ</td>
+                <td>にゅ</td>
+                <td>にょ</td>
+                <td>ニャ</td>
+                <td>ニュ</td>
+                <td>ニョ</td>
+                <td>nya</td>
+                <td>nyu</td>
+                <td>nyo</td>
+                <th class="cell-with-checkbox">
+                    <input type="checkbox" id="ny-comb-col" checked="@_checkedRows[19]" @onchange="(e) => OnCheckboxChanged(19, e)">
+                </th>
+            </tr>
+            <tr>
+                <th></th>
+                <td>ひゃ</td>
+                <td>ひゅ</td>
+                <td>ひょ</td>
+                <td>ヒャ</td>
+                <td>ヒュ</td>
+                <td>ヒョ</td>
+                <td>hya</td>
+                <td>hyu</td>
+                <td>hyo</td>
+                <th class="cell-with-checkbox">
+                    <input type="checkbox" id="hy-comb-col" checked="@_checkedRows[20]" @onchange="(e) => OnCheckboxChanged(20, e)">
+                </th>
+            </tr>
+            <tr>
+                <th></th>
+                <td>みゃ</td>
+                <td>みゅ</td>
+                <td>みょ</td>
+                <td>ミャ</td>
+                <td>ミュ</td>
+                <td>ミョ</td>
+                <td>mya</td>
+                <td>myu</td>
+                <td>myo</td>
+                <th class="cell-with-checkbox">
+                    <input type="checkbox" id="my-comb-col" checked="@_checkedRows[21]" @onchange="(e) => OnCheckboxChanged(21, e)">
+                </th>
+            </tr>
+            <tr>
+                <th></th>
+                <td>りゃ</td>
+                <td>りゅ</td>
+                <td>りょ</td>
+                <td>リャ</td>
+                <td>リュ</td>
+                <td>リョ</td>
+                <td>rya</td>
+                <td>ryu</td>
+                <td>ryo</td>
+                <th class="cell-with-checkbox">
+                    <input type="checkbox" id="ry-comb-col" checked="@_checkedRows[22]" @onchange="(e) => OnCheckboxChanged(22, e)">
+                </th>
+            </tr>
+            <tr>
+                <th></th>
+                <td>ぎゃ</td>
+                <td>ぎゅ</td>
+                <td>ぎょ</td>
+                <td>ギャ</td>
+                <td>ギュ</td>
+                <td>ギョ</td>
+                <td>gya</td>
+                <td>gyu</td>
+                <td>gyo</td>
+                <th class="cell-with-checkbox">
+                    <input type="checkbox" id="gy-comb-col" checked="@_checkedRows[23]" @onchange="(e) => OnCheckboxChanged(23, e)">
+                </th>
+            </tr>
+            <tr>
+                <th></th>
+                <td>じゃ</td>
+                <td>じゅ</td>
+                <td>じょ</td>
+                <td>ジャ</td>
+                <td>ジュ</td>
+                <td>ジョ</td>
+                <td>ja</td>
+                <td>ju</td>
+                <td>jo</td>
+                <th class="cell-with-checkbox">
+                    <input type="checkbox" id="j-comb-col" checked="@_checkedRows[24]" @onchange="(e) => OnCheckboxChanged(24, e)">
+                </th>
+            </tr>
+            <tr>
+                <th></th>
+                <td>びゃ</td>
+                <td>びゅ</td>
+                <td>びょ</td>
+                <td>ビャ</td>
+                <td>ビュ</td>
+                <td>ビョ</td>
+                <td>bya</td>
+                <td>byu</td>
+                <td>byo</td>
+                <th class="cell-with-checkbox">
+                    <input type="checkbox" id="by-comb-col" checked="@_checkedRows[25]" @onchange="(e) => OnCheckboxChanged(25, e)">
+                </th>
+            </tr>
+            <tr>
+                <th></th>
+                <td>ぴゃ</td>
+                <td>ぴゅ</td>
+                <td>ぴょ</td>
+                <td>ピャ</td>
+                <td>ピュ</td>
+                <td>ピョ</td>
+                <td>pya</td>
+                <td>pyu</td>
+                <td>pyo</td>
+                <th class="cell-with-checkbox">
+                    <input type="checkbox" id="py-comb-col" checked="@_checkedRows[26]" @onchange="(e) => OnCheckboxChanged(26, e)">
+                </th>
+            </tr>
+            <tr>
+                <th></th>
+                <th colspan="9">Kana combinations</th>
+                <th></th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="main-container">
+        <div class="current-character-display">@(_currentKana != null ? _currentKana.Romaji : "")</div>
+        <div class="history">@((MarkupString)_historyString)</div>
+
+    </div>
 </div>
 
+<script>
+    window.registerGlobalKeyListener = (dotnetHelper) => {
+        window.globalKeyHandler = (e) => {
+            if (e.code === 'Space' || e.key === ' ') {
+                e.preventDefault();
+                dotnetHelper.invokeMethodAsync('NextCharacter');
+            }
+            
+            if ((e.ctrlKey || e.metaKey) && (e.key === 'z' || e.key === 'Z')) {
+                dotnetHelper.invokeMethodAsync('Undo');
+            }
+        };
+        window.addEventListener('keydown', window.globalKeyHandler);
+    };
+
+    window.unregisterGlobalKeyListener = () => {
+        window.removeEventListener('keydown', window.globalKeyHandler);
+    };
+</script>
 
 @code {
     #region Subtitle
@@ -374,4 +589,308 @@
     }
     
     #endregion
+    
+    private DotNetObjectReference<Practice>? _objRef;
+    
+    private bool[]? _checkedRows = Enumerable.Repeat(true, 27).ToArray();
+    private record Kana(string Romaji, string Hira, string Kata);
+    private Kana? _currentKana = null;
+    private readonly LinkedList<Kana> _history = [];
+    private string _historyString = "";
+    
+    private readonly Kana[][] kana = new Kana[][]
+    {
+        // A-row
+        [
+            new Kana("a", "あ", "ア"),
+            new Kana("i", "い", "イ"),
+            new Kana("u", "う", "ウ"),
+            new Kana("e", "え", "エ"),
+            new Kana("o", "お", "オ")
+        ],
+        // Ka-row
+        [
+            new Kana("ka", "か", "カ"),
+            new Kana("ki", "き", "キ"),
+            new Kana("ku", "く", "ク"),
+            new Kana("ke", "け", "ケ"),
+            new Kana("ko", "こ", "コ")
+        ],
+        // Sa-row
+        [
+            new Kana("sa", "さ", "サ"),
+            new Kana("shi", "し", "シ"),
+            new Kana("su", "す", "ス"),
+            new Kana("se", "せ", "セ"),
+            new Kana("so", "そ", "ソ")
+        ],
+        // Ta-row
+        [
+            new Kana("ta", "た", "タ"),
+            new Kana("chi", "ち", "チ"),
+            new Kana("tsu", "つ", "ツ"),
+            new Kana("te", "て", "テ"),
+            new Kana("to", "と", "ト")
+        ],
+        // Na-row
+        [
+            new Kana("na", "な", "ナ"),
+            new Kana("ni", "に", "ニ"),
+            new Kana("nu", "ぬ", "ヌ"),
+            new Kana("ne", "ね", "ネ"),
+            new Kana("no", "の", "ノ")
+        ],
+        // Ha-row
+        [
+            new Kana("ha", "は", "ハ"),
+            new Kana("hi", "ひ", "ヒ"),
+            new Kana("fu", "ふ", "フ"),
+            new Kana("he", "へ", "ヘ"),
+            new Kana("ho", "ほ", "ホ")
+        ],
+        // Ma-row
+        [
+            new Kana("ma", "ま", "マ"),
+            new Kana("mi", "み", "ミ"),
+            new Kana("mu", "む", "ム"),
+            new Kana("me", "め", "メ"),
+            new Kana("mo", "も", "モ")
+        ],
+        // Ya-row
+        [
+            new Kana("ya", "や", "ヤ"),
+            new Kana("yu", "ゆ", "ユ"),
+            new Kana("yo", "よ", "ヨ")
+        ],
+        // Ra-row
+        [
+            new Kana("ra", "ら", "ラ"),
+            new Kana("ri", "り", "リ"),
+            new Kana("ru", "る", "ル"),
+            new Kana("re", "れ", "レ"),
+            new Kana("ro", "ろ", "ロ")
+        ],
+        // Wa-row
+        [
+            new Kana("wa", "わ", "ワ"),
+            new Kana("wo", "を", "ヲ")
+        ],
+        // N-row
+        [
+            new Kana("n", "ん", "ン")
+        ],
+        // Ga-row
+        [
+            new Kana("ga", "が", "ガ"),
+            new Kana("gi", "ぎ", "ギ"),
+            new Kana("gu", "ぐ", "グ"),
+            new Kana("ge", "げ", "ゲ"),
+            new Kana("go", "ご", "ゴ")
+        ],
+        // Za-row
+        [
+            new Kana("za", "ざ", "ザ"),
+            new Kana("ji", "じ or ぢ", "ジ or ヂ"),
+            new Kana("zu", "ず or づ", "ズ or ヅ"),
+            new Kana("ze", "ぜ", "ゼ"),
+            new Kana("zo", "ぞ", "ゾ")
+        ],
+        // Da-row
+        [
+            new Kana("da", "だ", "ダ"),
+            new Kana("ji", "じ or ぢ", "ジ or ヂ"),
+            new Kana("zu", "ず or づ", "ズ or ヂ"),
+            new Kana("de", "で", "デ"),
+            new Kana("do", "ど", "ド")
+        ],
+        // Ba-row
+        [
+            new Kana("ba", "ば", "バ"),
+            new Kana("bi", "び", "ビ"),
+            new Kana("bu", "ぶ", "ブ"),
+            new Kana("be", "べ", "ベ"),
+            new Kana("bo", "ぼ", "ボ")
+        ],
+        // Pa-row
+        [
+            new Kana("pa", "ぱ", "パ"),
+            new Kana("pi", "ぴ", "ピ"),
+            new Kana("pu", "ぷ", "プ"),
+            new Kana("pe", "ぺ", "ペ"),
+            new Kana("po", "ぽ", "ポ")
+        ],
+        // Combinations
+        // Kya-row
+        [
+            new Kana("kya", "きゃ", "キャ"),
+            new Kana("kyu", "きゅ", "キュ"),
+            new Kana("kyo", "きょ", "キョ")
+        ],
+        // Gya-row
+        [
+            new Kana("gya", "ぎゃ", "ギャ"),
+            new Kana("gyu", "ぎゅ", "ギュ"),
+            new Kana("gyo", "ぎょ", "ギョ")
+        ],
+        // Sha-row
+        [
+            new Kana("sha", "しゃ", "シャ"),
+            new Kana("shu", "しゅ", "シュ"),
+            new Kana("sho", "しょ", "ショ")
+        ],
+        // Ja-row
+        [
+            new Kana("ja", "じゃ", "ジャ"),
+            new Kana("ju", "じゅ", "ジュ"),
+            new Kana("jo", "じょ", "ジョ")
+        ],
+        // Cha-row
+        [
+            new Kana("cha", "ちゃ", "チャ"),
+            new Kana("chu", "ちゅ", "チュ"),
+            new Kana("cho", "ちょ", "チョ")
+        ],
+        // Nya-row
+        [
+            new Kana("nya", "にゃ", "ニャ"),
+            new Kana("nyu", "にゅ", "ニュ"),
+            new Kana("nyo", "にょ", "ニョ")
+        ],
+        // Hya-row
+        [
+            new Kana("hya", "ひゃ", "ヒャ"),
+            new Kana("hyu", "ひゅ", "ヒュ"),
+            new Kana("hyo", "ひょ", "ヒョ")
+        ],
+        // Bya-row
+        [
+            new Kana("bya", "びゃ", "ビャ"),
+            new Kana("byu", "びゅ", "ビュ"),
+            new Kana("byo", "びょ", "ビョ")
+        ],
+        // Pya-row
+        [
+            new Kana("pya", "ぴゃ", "ピャ"),
+            new Kana("pyu", "ぴゅ", "ピュ"),
+            new Kana("pyo", "ぴょ", "ピョ")
+        ],
+        // Mya-row
+        [
+            new Kana("mya", "みゃ", "ミャ"),
+            new Kana("myu", "みゅ", "ミュ"),
+            new Kana("myo", "みょ", "ミョ")
+        ],
+        // Rya-row
+        [
+            new Kana("rya", "りゃ", "リャ"),
+            new Kana("ryu", "りゅ", "リュ"),
+            new Kana("ryo", "りょ", "リョ")
+        ]
+    };
+
+    private void OnCheckboxChanged(int index, ChangeEventArgs e)
+    {
+        if (e.Value is not bool isChecked) return;
+        _checkedRows?[index] = isChecked;
+        SaveData();
+    }
+    
+    private void SaveData()
+    {
+        LocalStorage.SetItemAsync("checkedRows", _checkedRows);
+        Console.WriteLine("SAVED");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine("LOADED");
+        await LoadData();
+    }
+    
+    private async Task LoadData()
+    {
+        var savedRows = await LocalStorage.GetItemAsync<bool[]>("checkedRows");
+    
+        if (savedRows != null)
+        {
+            _checkedRows = savedRows;
+        }
+    }
+    
+    [JSInvokable]
+    public void NextCharacter()
+    {
+        if (_currentKana != null)
+        {
+            _history.AddFirst(_currentKana);
+            UpdateHistoryString();
+        }
+
+        var pickedKanas = kana
+            .Where((row, index) => _checkedRows != null && _checkedRows[index])
+            .SelectMany(row => row)
+            .ToList();
+        
+        if (pickedKanas.Any())
+        {
+            var random = new Random();
+            _currentKana = pickedKanas[random.Next(pickedKanas.Count)];
+        }
+        else
+        {
+            // Handle the case where no kana are selected
+        }
+
+        if (_history.Count >= 200)
+        {
+            _history.RemoveLast();
+        }
+        
+        StateHasChanged();
+        SaveData();
+    }
+
+    [JSInvokable]
+    public void Undo()
+    {
+        if (_history.Count == 0) return;
+        
+        _currentKana = _history.First?.Value;
+        
+        _history.RemoveFirst();
+        
+        UpdateHistoryString();
+        StateHasChanged();
+    }
+
+    private void UpdateHistoryString()
+    {
+        var sb = new StringBuilder();
+        foreach (var kana in _history.Take(20))
+        { 
+            sb.Append(kana.Romaji)
+                .Append("<span style=\"color: #B0BEC5;\"> | </span>")
+                .Append(kana.Hira)
+                .Append("<span style=\"color: #B0BEC5;\"> / </span>")
+                .Append(kana.Kata)
+                .Append("<br />");
+        }
+
+        _historyString = sb.ToString();
+    }
+    
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _objRef = DotNetObjectReference.Create(this);
+            await JS.InvokeVoidAsync("registerGlobalKeyListener", _objRef);
+        }
+    }
+    public async ValueTask DisposeAsync()
+    {
+        await JS.InvokeVoidAsync("unregisterGlobalKeyListener");
+        _objRef?.Dispose();
+    }
 }

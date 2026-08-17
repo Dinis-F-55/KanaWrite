@@ -13,7 +13,7 @@ main {
     position: fixed;
     z-index: 0;
     opacity: 0.1;
-    font-size: 60rem;
+    font-size: 50vw;
     color: black;
     pointer-events: none;
 }
@@ -40,7 +40,7 @@ main {
 }
 
 .top-row {
-    /*border-bottom: 2px solid green;*/
+    border-bottom: 2px solid;
     display: flex;
     justify-content: flex-start;
     align-items: center;
